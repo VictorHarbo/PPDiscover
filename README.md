@@ -1,6 +1,6 @@
 # PPDiscover
 
-PPDiscover is a full-stack application consisting of a Java Spring Boot backend and a Vue.js frontend.
+PPDiscover is a full-stack application consisting of a Java Spring Boot backend and a Vue.js frontend. The application requires a Solr instance with a configured 'ppdiscover' collection for data storage and search functionality.
 
 ## Project Structure
 
@@ -27,6 +27,7 @@ PPDiscover-parent/
 - Java 21 (for local development)
 - Node.js 18+ (for local development)
 - Maven (for local development)
+- Solr 8+ with a configured 'ppdiscover' collection
 
 ## Getting Started
 
@@ -43,9 +44,9 @@ PPDiscover-parent/
    docker-compose up --build
    ```
 
-3. Access the application:
+4. Access the application:
    - Frontend: http://localhost:3000
-   - Backend: http://localhost:8080
+   - Backend: http://localhost:9070
 
 ### Local Development
 
@@ -83,6 +84,7 @@ The backend is built with:
 - Java 21
 - Spring Boot
 - Maven
+- Solr for search
 
 ### Frontend Development
 
