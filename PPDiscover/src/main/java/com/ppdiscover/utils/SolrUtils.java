@@ -16,7 +16,7 @@ public class SolrUtils {
 
     public static void indexPowerpointDTO(PPDocument document) throws SolrServerException, IOException {
         // Solr server URL
-        String solrUrl = "http://localhost:8983/solr/ppdiscover"; // Replace with your core name
+        String solrUrl = "http://host.docker.internal:8983/solr/ppdiscover"; // Replace with your core name
         SolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build();
 
         // Convert the Java object into SolrInputDocument
@@ -46,7 +46,7 @@ public class SolrUtils {
 
     public static String query(String query) throws SolrServerException, IOException {
         // Solr server URL
-        String solrUrl = "http://localhost:8983/solr/ppdiscover"; // Replace with your core name
+        String solrUrl = "http://host.docker.internal:8983/solr/ppdiscover"; // Replace with your core name
         SolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build();
 
         SolrQuery solrQuery = new SolrQuery();

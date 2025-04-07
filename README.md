@@ -44,7 +44,7 @@ PPDiscover-parent/
    docker-compose up --build
    ```
 
-4. Access the application:
+3. Access the application:
    - Frontend: http://localhost:3000
    - Backend: http://localhost:9070
 

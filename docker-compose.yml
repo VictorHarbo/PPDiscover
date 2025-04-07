@@ -9,6 +9,8 @@ services:
       - "9070:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - ppdiscover-network
 

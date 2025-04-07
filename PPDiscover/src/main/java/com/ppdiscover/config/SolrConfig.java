@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SolrConfig {
 
-    @Value("${solr.url:http://localhost:8983/solr}")
+    @Value("${solr.url:host.docker.internal:8983/solr}")
     private String solrUrl;
     
     @Value("${solr.connection.timeout:5000}")
