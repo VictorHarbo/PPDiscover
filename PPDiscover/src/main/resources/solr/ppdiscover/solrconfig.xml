@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+  <!-- Solr instance configuration -->
+  <luceneMatchVersion>9.4.1</luceneMatchVersion>
+  
+  <!-- Directory configuration -->
+  <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+  
+  <!-- Data directory -->
+  <dataDir>${solr.data.dir:./data}</dataDir>
+  
+  <!-- Request handler configuration -->
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <lst name="defaults">
+      <str name="echoParams">explicit</str>
+      <int name="rows">10</int>
+      <str name="df">text</str>
+    </lst>
+    <arr name="last-components">
+      <str>spellcheck</str>
+      <str>highlight</str>
+      <str>faceting</str>
+    </arr>
+  </requestHandler>
+  
+  <!-- Update request handler -->
+  <requestHandler name="/update" class="solr.UpdateRequestHandler">
+    <lst name="defaults">
+      <str name="update.chain">deduplication</str>
+    </lst>
+  </requestHandler>
+  
+  <!-- Admin request handler -->
+  <requestHandler name="/admin/" class="solr.admin.AdminHandlers" />
+  
+  <!-- Query response writer -->
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+    <str name="content-type">application/json</str>
+  </queryResponseWriter>
+  
+  <!-- Highlighting configuration -->
+  <searchComponent name="highlight" class="solr.HighlightComponent">
+    <lst name="defaults">
+      <str name="hl">on</str>
+      <str name="hl.fl">title content</str>
+      <int name="hl.snippets">3</int>
+      <int name="hl.fragsize">100</int>
+      <str name="hl.simple.pre"><![CDATA[<em>]]></str>
+      <str name="hl.simple.post"><![CDATA[</em>]]></str>
+    </lst>
+  </searchComponent>
+  
+  <!-- Faceting configuration -->
+  <searchComponent name="faceting" class="solr.FacetComponent">
+    <lst name="defaults">
+      <str name="facet">on</str>
+      <str name="facet.field">tags</str>
+      <str name="facet.field">author</str>
+      <int name="facet.mincount">1</int>
+    </lst>
+  </searchComponent>
+  
+  <!-- Spellcheck configuration -->
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+    <str name="queryAnalyzerFieldType">text_general</str>
+    <lst name="spellchecker">
+      <str name="name">default</str>
+      <str name="field">text</str>
+      <str name="classname">solr.DirectSolrSpellChecker</str>
+      <str name="distanceMeasure">internal</str>
+      <float name="accuracy">0.5</float>
+      <int name="maxEdits">2</int>
+      <int name="minPrefix">1</int>
+      <int name="maxInspections">5</int>
+      <int name="minQueryLength">4</int>
+      <float name="maxQueryFrequency">0.01</float>
+      <float name="threshold">0.0</float>
+    </lst>
+  </searchComponent>
+  
+  <!-- Update processor chain for deduplication -->
+  <updateRequestProcessorChain name="deduplication">
+    <processor class="solr.processor.SignatureUpdateProcessorFactory">
+      <bool name="enabled">true</bool>
+      <str name="signatureField">id</str>
+      <bool name="overwriteDupes">false</bool>
+      <str name="fields">title,content</str>
+      <str name="signatureClass">solr.processor.Lookup3Signature</str>
+    </processor>
+  </updateRequestProcessorChain>
+</config> 
