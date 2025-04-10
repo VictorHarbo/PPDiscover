@@ -1,10 +1,14 @@
 package com.ppdiscover.utils;
 
 import com.ppdiscover.PPDocument;
+import com.ppdiscover.SermonDocument;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.eclipse.jetty.http.HttpTester;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,7 +17,7 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class PPExtractor {
+public class ContentExtractor {
 
     // Define the regex pattern
     private static String salmeRegex = "^Salme (\\d+): (.+)$";
@@ -27,7 +31,33 @@ public class PPExtractor {
         return getPPDocument(inputStream);
     }
 
-    public static PPDocument getPPDocument(InputStream inputStream) {
+    public static SermonDocument getSermonDocument(String filePath) throws FileNotFoundException {
+        FileInputStream inputStream = new FileInputStream(filePath);
+
+        return getSermonDocument(inputStream);
+    }
+
+    public static SermonDocument getSermonDocument(InputStream inputStream) {
+        SermonDocument sermonDocument = new SermonDocument();
+
+        try {
+            XWPFDocument document = new XWPFDocument(inputStream);
+
+            XWPFWordExtractor extractor = new XWPFWordExtractor(document);
+
+            String text = extractor.getText();
+            System.out.println("Text from .docx:\n" + text);
+
+
+            sermonDocument.setContent(text);
+            return sermonDocument;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+
+        public static PPDocument getPPDocument(InputStream inputStream) {
         PPDocument ppDocument = new PPDocument();
 
         try {

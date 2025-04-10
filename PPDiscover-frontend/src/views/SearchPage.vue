@@ -8,6 +8,22 @@
         placeholder="Enter your search query..."
         class="search-input"
       />
+      <div class="toggle-container">
+        <button 
+          @click="toggleDocumentType" 
+          class="toggle-button"
+          :class="{ active: documentType === 'salmer' }"
+        >
+          Salmer
+        </button>
+        <button 
+          @click="toggleDocumentType" 
+          class="toggle-button"
+          :class="{ active: documentType === 'praedikener' }"
+        >
+          Prædikener
+        </button>
+      </div>
       <button @click="performSearch" class="search-button">Search</button>
     </div>
 
@@ -90,6 +106,7 @@ const searchResults = ref([])
 const totalResults = ref(0)
 const loading = ref(false)
 const error = ref(null)
+const documentType = ref('salmer') // Default to 'salmer'
 
 // Watch for route changes to clear search when navigating to search page
 watch(() => route.path, (newPath) => {
@@ -103,6 +120,10 @@ const clearSearch = () => {
   searchResults.value = []
   totalResults.value = 0
   error.value = null
+}
+
+const toggleDocumentType = () => {
+  documentType.value = documentType.value === 'salmer' ? 'praedikener' : 'salmer'
 }
 
 const getFirstTitle = (result) => {
@@ -122,7 +143,8 @@ const performSearch = async () => {
   try {
     const response = await axios.get(API_ENDPOINTS.SEARCH, {
       params: {
-        q: searchQuery.value
+        q: searchQuery.value,
+        type: documentType.value
       }
     })
     
@@ -152,10 +174,12 @@ const performSearch = async () => {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .search-input {
   flex: 1;
+  min-width: 200px;
   padding: 10px;
   border: 1px solid #ffd1dc;
   border-radius: 4px;
@@ -167,6 +191,32 @@ const performSearch = async () => {
   outline: none;
   border-color: #ff6b81;
   box-shadow: 0 0 0 2px rgba(255, 107, 129, 0.2);
+}
+
+.toggle-container {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ffd1dc;
+}
+
+.toggle-button {
+  padding: 10px 15px;
+  background-color: white;
+  color: #ff6b81;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:first-child {
+  border-right: 1px solid #ffd1dc;
+}
+
+.toggle-button.active {
+  background-color: #ff6b81;
+  color: white;
 }
 
 .search-button {
@@ -267,25 +317,21 @@ li {
 .psalm-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
 }
 
 .psalm-tag {
-  background-color: rgba(255, 107, 129, 0.1);
+  background-color: #ffd1dc;
   color: #ff4757;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.psalm-tag:hover {
-  background-color: rgba(255, 107, 129, 0.2);
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 12px;
 }
 
 .no-results {
   text-align: center;
-  color: #ff6b81;
   padding: 20px;
+  color: #ff6b81;
+  font-style: italic;
 }
 </style> 

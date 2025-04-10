@@ -12,7 +12,26 @@
       </label>
     </div>
 
-    <div class="collection-selector">
+    <div class="document-type-toggle">
+      <div class="toggle-container">
+        <button 
+          @click="toggleDocumentType" 
+          class="toggle-button"
+          :class="{ active: documentType === 'salmer' }"
+        >
+          Salmer
+        </button>
+        <button 
+          @click="toggleDocumentType" 
+          class="toggle-button"
+          :class="{ active: documentType === 'praedikener' }"
+        >
+          Prædikener
+        </button>
+      </div>
+    </div>
+
+    <div v-if="documentType === 'salmer'" class="collection-selector">
       <label for="collection">Collection:</label>
       <select id="collection" v-model="selectedCollection" class="collection-dropdown">
         <option value="firstRow">FØRSTE RÆKKE</option>
@@ -67,7 +86,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import axios from 'axios'
 import { API_ENDPOINTS } from '../config'
 
@@ -80,6 +99,19 @@ const successMessage = ref(null)
 const selectedFiles = ref([])
 const selectedCollection = ref('firstRow')
 const isMultipleUpload = ref(false)
+const documentType = ref('salmer') // Default to 'salmer'
+
+// Watch for document type changes to reset collection if needed
+watch(documentType, (newType) => {
+  if (newType === 'praedikener') {
+    // Reset collection to default when switching to praedikener
+    selectedCollection.value = 'firstRow'
+  }
+})
+
+const toggleDocumentType = () => {
+  documentType.value = documentType.value === 'salmer' ? 'praedikener' : 'salmer'
+}
 
 const triggerFileInput = () => {
   fileInput.value.click()
@@ -113,7 +145,13 @@ const uploadFiles = async (files) => {
       files.forEach(file => {
         formData.append('files', file)
       })
-      formData.append('collection', selectedCollection.value)
+      
+      // Only append collection if document type is salmer
+      if (documentType.value === 'salmer') {
+        formData.append('collection', selectedCollection.value)
+      }
+      
+      formData.append('type', documentType.value)
 
       await axios.post(API_ENDPOINTS.ADD_MULTIPLE, formData, {
         headers: {
@@ -130,7 +168,13 @@ const uploadFiles = async (files) => {
       for (const file of files) {
         const formData = new FormData()
         formData.append('file', file)
-        formData.append('collection', selectedCollection.value)
+        
+        // Only append collection if document type is salmer
+        if (documentType.value === 'salmer') {
+          formData.append('collection', selectedCollection.value)
+        }
+        
+        formData.append('type', documentType.value)
 
         await axios.post(API_ENDPOINTS.UPLOAD, formData, {
           headers: {
@@ -218,6 +262,37 @@ input:checked + .toggle-slider:before {
   transform: translateX(26px);
 }
 
+.document-type-toggle {
+  margin-bottom: 20px;
+}
+
+.toggle-container {
+  display: flex;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ffd1dc;
+  width: fit-content;
+}
+
+.toggle-button {
+  padding: 10px 15px;
+  background-color: white;
+  color: #ff6b81;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:first-child {
+  border-right: 1px solid #ffd1dc;
+}
+
+.toggle-button.active {
+  background-color: #ff6b81;
+  color: white;
+}
+
 .collection-selector {
   margin-bottom: 20px;
 }
@@ -251,7 +326,7 @@ input:checked + .toggle-slider:before {
 
 .upload-area.dragging {
   border-color: #ff6b81;
-  background-color: rgba(255, 107, 129, 0.1);
+  background-color: rgba(255, 209, 220, 0.1);
 }
 
 .file-input {
@@ -271,19 +346,19 @@ input:checked + .toggle-slider:before {
 .upload-icon {
   font-size: 48px;
   margin-bottom: 10px;
-  color: #ff6b81;
 }
 
 .select-button {
-  margin-top: 10px;
-  padding: 8px 16px;
+  margin-top: 15px;
+  padding: 10px 20px;
   background-color: #ff6b81;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  pointer-events: auto;
+  font-size: 16px;
   transition: background-color 0.3s ease;
+  pointer-events: auto;
 }
 
 .select-button:hover {
@@ -295,11 +370,11 @@ input:checked + .toggle-slider:before {
 }
 
 .progress-bar {
-  width: 100%;
-  height: 20px;
+  height: 10px;
   background-color: #ffd1dc;
-  border-radius: 10px;
+  border-radius: 5px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 
 .progress {
@@ -318,25 +393,34 @@ input:checked + .toggle-slider:before {
 }
 
 .success {
-  color: #ff6b81;
+  color: #2ecc71;
   padding: 10px;
   margin: 10px 0;
-  border: 1px solid #ff6b81;
+  border: 1px solid #2ecc71;
   border-radius: 4px;
-  background: rgba(255, 107, 129, 0.1);
+  background: rgba(46, 204, 113, 0.1);
 }
 
 .selected-files {
   margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ffd1dc;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.selected-files h3 {
+  margin-top: 0;
+  color: #ff6b81;
 }
 
 .selected-files ul {
-  list-style: none;
-  padding: 0;
+  margin: 0;
+  padding-left: 20px;
 }
 
 .selected-files li {
-  padding: 5px 0;
-  color: #ff6b81;
+  margin-bottom: 5px;
+  color: #ff4757;
 }
 </style> 
