@@ -1,5 +1,8 @@
 # PPDiscover
 
+Searching for specific content in PowerPoint files can be tricky on locked down machines. 
+PPDiscover is made to make it possible to find hymns used in previous sermons easily. 
+
 PPDiscover is a full-stack application consisting of a Java Spring Boot backend and a Vue.js frontend. The application requires a Solr instance with a configured 'ppdiscover' collection for data storage and search functionality.
 
 ## Project Structure
@@ -27,7 +30,7 @@ PPDiscover-parent/
 - Java 21 (for local development)
 - Node.js 18+ (for local development)
 - Maven (for local development)
-- Solr 8+ with a configured 'ppdiscover' collection
+- Solr 8+ with a configured 'ppdiscover' collection (Solr 9 is recommended)
 
 ## Getting Started
 
