@@ -1,4 +1,4 @@
-# PPDiscover
+# PastoralSearch
 
 Searching for specific content in PowerPoint files can be tricky on locked down machines. 
 PPDiscover is made to make it possible to find hymns used in previous sermons easily. 
@@ -8,13 +8,13 @@ PPDiscover is a full-stack application consisting of a Java Spring Boot backend 
 ## Project Structure
 
 ```
-PPDiscover-parent/
-├── PPDiscover/              # Backend (Java Spring Boot)
+PastoralSearch/
+├── PastoralSearch-backend/              # Backend (Java Spring Boot)
 │   ├── src/                 # Source code
 │   ├── pom.xml             # Maven dependencies
 │   └── Dockerfile          # Backend container configuration
 │
-├── PPDiscover-frontend/     # Frontend (Vue.js)
+├── PastoralSearch-frontend/     # Frontend (Vue.js)
 │   ├── src/                # Source code
 │   ├── package.json        # NPM dependencies
 │   └── Dockerfile          # Frontend container configuration
