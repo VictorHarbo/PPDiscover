@@ -6,7 +6,7 @@ services:
       context: ./PPDiscover
       dockerfile: Dockerfile
     ports:
-      - "9070:8080"
+      - "9001:9001"
     environment:
       - SPRING_PROFILES_ACTIVE=prod
     extra_hosts:
@@ -19,7 +19,7 @@ services:
       context: ./PPDiscover-frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:80"
+      - "9000:80"
     depends_on:
       - backend
     networks:
