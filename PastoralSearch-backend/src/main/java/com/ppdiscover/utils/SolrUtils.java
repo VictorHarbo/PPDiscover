@@ -16,8 +16,8 @@ import java.io.IOException;
 public class SolrUtils {
     // Solr server URL
     //String solrUrl = "http://host.docker.internal:8983/solr/ppdiscover";
-    private static final String solrUrlHymns = "http://localhost:8983/solr/hymns";
-    private static final String solrUrlSermons = "http://localhost:8983/solr/sermons";
+    private static final String solrUrlHymns = "http://host.docker.internal:8983/solr/hymns";
+    private static final String solrUrlSermons = "http://host.docker.internal:8983/solr/sermons";
 
 
     public static void indexPowerpointDTO(PPDocument document) throws SolrServerException, IOException {
