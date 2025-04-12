@@ -20,7 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
                     "http://localhost:9000",
                     "http://localhost:9001",
                     "http://frontend:80",
-                    "http://frontend"
+                    "http://frontend",
+                    "http://genesis:9000"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Adjust the methods as per your needs
                 .allowedHeaders("*")  // Allow all headers
