@@ -3,7 +3,7 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./PPDiscover
+      context: ./PastoralSearch-backend
       dockerfile: Dockerfile
     ports:
       - "9001:9001"
@@ -12,19 +12,19 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:
-      - ppdiscover-network
+      - pastoralsearch-network
 
   frontend:
     build:
-      context: ./PPDiscover-frontend
+      context: ./PastoralSearch-frontend
       dockerfile: Dockerfile
     ports:
       - "9000:80"
     depends_on:
       - backend
     networks:
-      - ppdiscover-network
+      - pastoralsearch-network
 
 networks:
-  ppdiscover-network:
+  pastoralsearch-network:
     driver: bridge 
