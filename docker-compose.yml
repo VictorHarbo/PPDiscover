@@ -22,8 +22,6 @@ services:
       - "9000:80"
     depends_on:
       - backend
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     networks:
       - pastoralsearch-network
 
