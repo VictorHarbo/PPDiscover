@@ -1,6 +1,10 @@
 # Build stage
-FROM node:18-alpine as build-stage
+FROM node:18.19-alpine3.19 as build-stage
 WORKDIR /app
+
+# Verify node and npm installation
+RUN node --version && npm --version
+
 COPY package*.json ./
 RUN npm install
 COPY . .
