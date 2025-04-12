@@ -1,5 +1,5 @@
 // Backend API URLs
-export const API_BASE_URL = 'http://localhost:9070';
+export const API_BASE_URL = 'http://localhost:9001';
 
 // API endpoints
 export const API_ENDPOINTS = {
