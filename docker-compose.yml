@@ -1,43 +1,38 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: ./PastoralSearch-backend
-      dockerfile: Dockerfile
-    ports:
-      - "9001:9001"
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    networks:
-      - pastoralsearch-network
-
   frontend:
     build:
       context: ./PastoralSearch-frontend
       dockerfile: Dockerfile
-    ports:
-      - "9000:80"
-    depends_on:
-      - backend
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    container_name: pastoral-search-frontend
+    restart: unless-stopped
     networks:
-      - pastoralsearch-network
+      - pastoral-network
+
+  backend:
+    build:
+      context: ./PastoralSearch-backend
+      dockerfile: Dockerfile
+    container_name: pastoral-search-backend
+    restart: unless-stopped
+    networks:
+      - pastoral-network
 
   nginx:
-    image: nginx:alpine
-    container_name: nginx_internal_proxy
+    image: nginx:stable-alpine
+    container_name: pastoral-search-nginx
     ports:
       - "9002:80"
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - frontend
       - backend
+    restart: unless-stopped
+    networks:
+      - pastoral-network
 
 networks:
-  pastoralsearch-network:
+  pastoral-network:
     driver: bridge 
