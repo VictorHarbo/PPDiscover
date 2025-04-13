@@ -27,6 +27,17 @@ services:
     networks:
       - pastoralsearch-network
 
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "9002:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+
 networks:
   pastoralsearch-network:
     driver: bridge 
