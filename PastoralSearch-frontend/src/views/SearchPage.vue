@@ -45,6 +45,12 @@
           <div class="result-id">ID: {{ result.id }}</div>
         </div>
 
+        <div v-if="documentType === 'praedikener' && result.content" class="sermon-content-section">
+          <h4>Prædiken indhold:</h4>
+          <div class="sermon-content">
+            {{ result.content }}
+          </div>
+        </div>
 
         <div v-if="result.salmeNumre && result.salmeNumre.length" class="psalm-numbers-section">
           <h4>Salme Numre:</h4>
@@ -61,18 +67,6 @@
             <ul>
               <li v-for="(title, tIndex) in result.titler" :key="tIndex">{{ title }}</li>
             </ul>
-          </div>
-          
-          <div v-if="result.tekster && result.tekster.length" class="texts-section">
-            <h4>Texts:</h4>
-            <ul>
-              <li v-for="(text, tIndex) in result.tekster" :key="tIndex">{{ text }}</li>
-            </ul>
-          </div>
-          
-          <div v-if="result.fileLocation && result.fileLocation.length" class="file-location-section">
-            <h4>File Location:</h4>
-            <p>{{ result.fileLocation[0] }}</p>
           </div>
 
           <div v-if="result.textRow" class="text-row-section">
@@ -333,5 +327,26 @@ li {
   padding: 20px;
   color: #ff6b81;
   font-style: italic;
+}
+
+.sermon-content-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff5f7;
+  border-radius: 4px;
+  border: 1px solid #ffd1dc;
+}
+
+.sermon-content {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #333;
+  font-size: 14px;
+  max-height: 500px;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #ffd1dc;
 }
 </style> 

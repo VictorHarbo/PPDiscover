@@ -129,7 +129,7 @@ public class HomeController {
 
     // Endpoint for handling the file upload
     @PostMapping("/addMultiple")
-    public ResponseEntity<String> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam("collection") String collection, @RequestParam("type") String type) throws IOException {
+    public ResponseEntity<String> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam(value = "collection", required = false) String collection, @RequestParam("type") String type) throws IOException {
 
         try {
             // Loop through the uploaded files
