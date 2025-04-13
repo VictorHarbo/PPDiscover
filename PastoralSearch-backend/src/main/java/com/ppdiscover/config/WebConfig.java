@@ -10,7 +10,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // Allow CORS requests from localhost:3000
         registry.addMapping("/**")
                 .allowedOrigins(
                     "http://localhost:3000",
@@ -19,12 +18,15 @@ public class WebConfig implements WebMvcConfigurer {
                     "http://localhost:8080",
                     "http://localhost:9000",
                     "http://localhost:9001",
+                    "http://localhost:9002",
                     "http://frontend:80",
                     "http://frontend",
-                    "http://genesis:9000"
+                    "http://genesis:9000",
+                    "*"  // Allow all origins for development
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Adjust the methods as per your needs
-                .allowedHeaders("*")  // Allow all headers
-                .allowCredentials(true);  // Allow credentials if needed
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }

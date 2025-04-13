@@ -18,6 +18,8 @@ services:
     restart: unless-stopped
     ports:
       - "9001:9001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
     networks:
       - pastoral-network
 
