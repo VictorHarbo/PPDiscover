@@ -14,7 +14,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOriginPatterns(
                     "http://localhost:[*]",
                     "http://frontend:[*]",
-                    "http://genesis:[*]"
+                    "http://genesis:[*]",
+                        "http://10.0.0.32:[*]"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
