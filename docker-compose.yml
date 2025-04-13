@@ -16,6 +16,8 @@ services:
       dockerfile: Dockerfile
     container_name: pastoral-search-backend
     restart: unless-stopped
+    ports:
+      - "9001:9001"
     networks:
       - pastoral-network
 
