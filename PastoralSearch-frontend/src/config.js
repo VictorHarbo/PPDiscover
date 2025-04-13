@@ -1,5 +1,5 @@
 // Backend API URLs
-export const API_BASE_URL = 'http://genesis:9001';
+export const API_BASE_URL = 'http://10.0.0.32:9001';
 
 // API endpoints
 export const API_ENDPOINTS = {
