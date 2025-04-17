@@ -8,7 +8,6 @@ import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.eclipse.jetty.http.HttpTester;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -71,6 +70,7 @@ public class ContentExtractor {
 
 
             sermonDocument.setContent(text);
+            extractor.close();
             return sermonDocument;
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -115,6 +115,7 @@ public class ContentExtractor {
             }
 
             inputStream.close();
+            ppt.close();
 
             return ppDocument;
         } catch (IOException e) {
