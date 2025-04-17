@@ -19,6 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * Controller for the Pastoral Search API.
+ */
 @RestController
 public class HomeController {
 
@@ -30,6 +33,13 @@ public class HomeController {
         return "Welcome to PPDiscover API";
     }
 
+    /**
+     * Search for hymns or sermons.
+     * 
+     * @param query The query to search for.
+     * @param type The type of search to perform. Either "salmer" or "praedikener".
+     * @return A response entity with the search results.
+     */
     @GetMapping("/search")
     public ResponseEntity<String> search(@RequestParam(value = "q", required = false) String query, @RequestParam(value = "type") String type) {
         try {
@@ -55,12 +65,27 @@ public class HomeController {
         }
     }
 
-
+    /**
+     * Add a file to the index.
+     * 
+     * @param file The file to add. Either a .pptx file or a .docx file.
+     * @param collection The collection to add the file to. Either "firstRow" or "secondRow". Only used for .pptx files.
+     * @param type The type of file to add. Either "salmer" or "praedikener".
+     * @return A response entity with the result of the operation.
+     */
     @PostMapping("/add")
     public ResponseEntity<String> add(@RequestParam("file") MultipartFile file, @RequestParam(value = "collection", required = false) String collection, @RequestParam("type") String type) throws IOException {
         return addFileToIndex(file, collection, type);
     }
 
+    /**
+     * Add a file to the index.
+     * 
+     * @param file The file to add.
+     * @param collection The collection to add the file to.
+     * @param type The type of file to add.
+     * @return A response entity with the result of the operation.
+     */
     private static ResponseEntity<String> addFileToIndex(MultipartFile file, String collection, String type) throws IOException {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("No file uploaded");
@@ -74,6 +99,12 @@ public class HomeController {
 
     }
 
+    /**
+     * Add a word file to the index.
+     * 
+     * @param file The file to add.
+     * @return A response entity with the result of the operation.
+     */
     private static ResponseEntity<String> addWordContentToIndex(MultipartFile file) throws IOException {
         // Only process .pptx files
         if (!file.getOriginalFilename().endsWith(".docx")) {
@@ -92,6 +123,13 @@ public class HomeController {
         return ResponseEntity.ok("File indexed successfully.");
     }
 
+    /**
+     * Add a PowerPoint file to the index.
+     * 
+     * @param file The file to add.
+     * @param collection The collection to add the file to. Either "firstRow" or "secondRow".
+     * @return A response entity with the result of the operation.
+     */
     private static ResponseEntity<String> addPowerpointContentToIndex(MultipartFile file, String collection) throws IOException {
         // Only process .pptx files
         if (!file.getOriginalFilename().endsWith(".pptx")) {
@@ -127,7 +165,14 @@ public class HomeController {
         return ResponseEntity.ok("File indexed successfully.");
     }
 
-    // Endpoint for handling the file upload
+    /**
+     * Upload multiple files to the index.
+     * 
+     * @param files The files to upload. Files should be of the same type.
+     * @param collection The collection to add the files to. Either "firstRow" or "secondRow". Only used for .pptx files.
+     * @param type The type of files to upload. Either "salmer" or "praedikener".
+     * @return A response entity with the result of the operation.
+     */
     @PostMapping("/addMultiple")
     public ResponseEntity<String> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files, @RequestParam(value = "collection", required = false) String collection, @RequestParam("type") String type) throws IOException {
 

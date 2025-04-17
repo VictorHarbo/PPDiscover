@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class for Solr integration.
+ */
 @Configuration
 public class SolrConfig {
 
@@ -18,6 +21,11 @@ public class SolrConfig {
     @Value("${solr.socket.timeout:10000}")
     private int socketTimeout;
 
+    /**
+     * Creates a new Solr client.
+     * 
+     * @return A Solr client.
+     */
     @Bean
     public SolrClient solrClient() {
         return new HttpSolrClient.Builder(solrUrl)

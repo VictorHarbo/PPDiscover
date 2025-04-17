@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Object to represent a Powerpoint document with content and associated psalm numbers and titles.
+ */
 public class PPDocument {
     final private String id;
     private String content = "";
@@ -15,6 +18,11 @@ public class PPDocument {
     private String fileName;
     private String textRow;
 
+    /**
+     * Constructor for PPDocument.
+     * 
+     * Generates a unique ID for the document.
+     */
     public PPDocument() {
         id = UUID.randomUUID().toString();
     }
@@ -64,6 +72,13 @@ public class PPDocument {
         this.fileName = fileName;
     }
 
+    /**
+     * Adds a new salme entry to the document.
+     * 
+     * @param salmeNummer The number of the psalm.
+     * @param salmeTitel The title of the psalm.
+     * @param salmeTekst The text of the psalm.
+     */
     public void addSalmeEntry(Integer salmeNummer, String salmeTitel, String salmeTekst) {
         this.salmeNumre.add(salmeNummer);
         this.salmeTitler.add(salmeTitel);
@@ -82,6 +97,11 @@ public class PPDocument {
         this.salmeTekster.add(salmeTekst);
     }
 
+    /**
+     * Appends content to the content field of the java object.
+     * 
+     * @param content The content to append.
+     */
     public void appendContent(String content){
         this.content += content +  " ";
     }

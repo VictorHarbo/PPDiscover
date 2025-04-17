@@ -13,6 +13,9 @@ import org.apache.solr.common.SolrInputDocument;
 
 import java.io.IOException;
 
+/**
+ * Utility class for interacting with Solr.
+ */
 public class SolrUtils {
     // Solr server URL
     //String solrUrl = "http://host.docker.internal:8983/solr/ppdiscover";
@@ -20,6 +23,13 @@ public class SolrUtils {
     private static final String solrUrlSermons = "http://10.0.0.32:8983/solr/sermons";
 
 
+    /**
+     * Index a PowerPoint document.
+     * 
+     * @param document The document to index.
+     * @throws SolrServerException If there is an error with the Solr server.
+     * @throws IOException If there is an error with the input stream.
+     */
     public static void indexPowerpointDTO(PPDocument document) throws SolrServerException, IOException {
         SolrClient solrClient = new HttpSolrClient.Builder(solrUrlHymns).build();
         // Convert the Java object into SolrInputDocument
@@ -46,7 +56,13 @@ public class SolrUtils {
         solrClient.close();
     }
 
-
+    /**
+     * Index a word document.
+     * 
+     * @param document The document to index.
+     * @throws SolrServerException If there is an error with the Solr server.
+     * @throws IOException If there is an error with the input stream.
+     */
     public static void indexWordDto(SermonDocument document) throws SolrServerException, IOException {
         SolrClient solrClient = new HttpSolrClient.Builder(solrUrlSermons).build();
         // Convert the Java object into SolrInputDocument
@@ -68,17 +84,38 @@ public class SolrUtils {
         solrClient.close();
     }
 
-
+    /**
+     * Query the hymns collection.
+     * 
+     * @param query The query to search for.
+     * @return A string representation of the query response.
+     * @throws SolrServerException If there is an error with the Solr server.
+     * @throws IOException If there is an error with the input stream.
+     */
     public static String queryHymns(String query) throws SolrServerException, IOException {
         return getString(query, solrUrlHymns);
 
     }
 
+    /**
+     * Query the sermons collection.
+     * 
+     * @param query The query to search for.
+     * @return A string representation of the query response.
+     * @throws SolrServerException If there is an error with the Solr server.
+     * @throws IOException If there is an error with the input stream.
+     */
     public static String querySermons(String query) throws SolrServerException, IOException {
         return getString(query, solrUrlSermons);
-
     }
 
+    /**
+     * Get a JSON string representation of the query response.
+     * 
+     * @param query The query to search for.
+     * @param solrUrlWithCollection The Solr URL with the collection.
+     * @return A JSON string representation of the query response.
+     */
     private static String getString(String query, String solrUrlWithCollection) throws IOException, SolrServerException {
         try (SolrClient solrClient = new HttpSolrClient.Builder(solrUrlWithCollection).build()) {
 
