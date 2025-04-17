@@ -17,6 +17,9 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Utility class for extracting content from files.
+ */
 public class ContentExtractor {
 
     // Define the regex pattern
@@ -25,18 +28,36 @@ public class ContentExtractor {
     // Compile the pattern
     private static Pattern salmePattern = Pattern.compile(salmeRegex);
 
+    /**
+     * Extract content from a PowerPoint file and return a PPDocument object.
+     * 
+     * @param filePath The path to the PowerPoint file.
+     * @return A PPDocument object.
+     */
     public static PPDocument extractToObject(String filePath) throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream(filePath);
 
         return getPPDocument(inputStream);
     }
 
+    /**
+     * Extract content from a word file and return a SermonDocument object.
+     * 
+     * @param filePath The path to the word file.
+     * @return A SermonDocument object.
+     */
     public static SermonDocument getSermonDocument(String filePath) throws FileNotFoundException {
         FileInputStream inputStream = new FileInputStream(filePath);
 
         return getSermonDocument(inputStream);
     }
 
+    /**
+     * Extract content from an input stream and return a SermonDocument object.
+     * 
+     * @param inputStream The input stream to extract content from.
+     * @return A SermonDocument object.
+     */
     public static SermonDocument getSermonDocument(InputStream inputStream) {
         SermonDocument sermonDocument = new SermonDocument();
 
@@ -56,8 +77,13 @@ public class ContentExtractor {
             }
         }
 
-
-        public static PPDocument getPPDocument(InputStream inputStream) {
+    /**
+     * Extract content from an input stream and return a PPDocument object.
+     * 
+     * @param inputStream The input stream to extract content from.
+     * @return A PPDocument object.
+     */
+    public static PPDocument getPPDocument(InputStream inputStream) {
         PPDocument ppDocument = new PPDocument();
 
         try {
@@ -97,7 +123,12 @@ public class ContentExtractor {
         return null;
     }
 
-
+    /**
+     * Update the document with file information.
+     * 
+     * @param document The document to update.
+     * @param originalFilename The original filename of the file.
+     */
     public static void updateDocumentWithFileInformation(PPDocument document, String originalFilename) {
         document.setFileName(originalFilename);
     }
